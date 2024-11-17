@@ -2,6 +2,10 @@
 
 - Adds new export options "Plants" with rotation matrix ouput
 
+17.11.2024
+
+- Structure of the entities improved so that they can be loaded better with CodeX 27
+
 # Discord
 
 https://discord.gg/leonthecreator
