@@ -1918,6 +1918,7 @@ function ConvertDatabaseToYmap(database)
 			entitiesXml = entitiesXml .. '\t\t<Item type="CEntityDef">\n'
 			entitiesXml = entitiesXml .. '\t\t\t<archetypeName>' .. properties.name .. '</archetypeName>\n'
 			entitiesXml = entitiesXml .. '\t\t\t<flags value="' .. flags .. '"/>\n'
+			entitiesXml = entitiesXml .. '\t\t\t<id value="0x0000000000000000" />\n'
 			entitiesXml = entitiesXml .. string.format('\t\t\t<position x="%f" y="%f" z="%f"/>\n', properties.x, properties.y, properties.z)
 			entitiesXml = entitiesXml .. string.format('\t\t\t<rotation w="%f" x="%f" y="%f" z="%f"/>\n', q.w, q.x, q.y, q.z)
 			entitiesXml = entitiesXml .. '\t\t\t<scaleXY value="1"/>\n'
@@ -1925,17 +1926,22 @@ function ConvertDatabaseToYmap(database)
 			entitiesXml = entitiesXml .. '\t\t\t<parentIndex value="-1"/>\n'
 			entitiesXml = entitiesXml .. '\t\t\t<lodDist value="80"/>\n'
 			entitiesXml = entitiesXml .. '\t\t\t<childLodDist value="80"/>\n'
-			entitiesXml = entitiesXml .. '\t\t\t<lodLevel>LODTYPES_DEPTH_HD</lodLevel>\n'
-			entitiesXml = entitiesXml .. '\t\t\t<numChildren value="0"/>\n'
-			entitiesXml = entitiesXml .. '\t\t\t<ambientOcclusionMultiplier value="255"/>\n'
-			entitiesXml = entitiesXml .. '\t\t\t<artificialAmbientOcclusion value="255"/>\n'
+			entitiesXml = entitiesXml .. '\t\t\t<lodLevel>LODTYPES_DEPTH_ORPHANHD</lodLevel>\n'
+			entitiesXml = entitiesXml .. '\t\t\t<numChildren value="0" />\n'
+			entitiesXml = entitiesXml .. '\t\t\t<priorityLevel>PRI_REQUIRED</priorityLevel>\n'
+			entitiesXml = entitiesXml .. '\t\t\t<extensions />\n'
+			entitiesXml = entitiesXml .. '\t\t\t<powerGridId value="0" />\n'
+			entitiesXml = entitiesXml .. '\t\t\t<tintValue value="0" />\n'
+			entitiesXml = entitiesXml .. '\t\t\t<blendAgeLayer value="255" />\n'
+			entitiesXml = entitiesXml .. '\t\t\t<blendAgeDirt value="255" />\n'
 			entitiesXml = entitiesXml .. '\t\t</Item>\n'
+			
 		end
 	end
 
 	entitiesXml = entitiesXml .. '\t</entities>\n'
 
-	local xml = '<?xml version="1.0"?>\n<CMapData>\n\t<flags value="2"/>\n\t<contentFlags value="65"/>\n'
+	local xml = '<?xml version="1.0" encoding="UTF-8"?>\n<CMapData>\n\t<name />\n\t<parent />\n\t<flags value="2"/>\n\t<contentFlags value="65"/>\n'
 
 	if minX and minY and minZ and maxX and maxY and maxZ then
 		xml = xml .. string.format('\t<streamingExtentsMin x="%f" y="%f" z="%f"/>\n', minX - 400, minY - 400, minZ - 400)
@@ -1945,7 +1951,47 @@ function ConvertDatabaseToYmap(database)
 
 		xml = xml .. entitiesXml
 	end
-
+	xml = xml .. '\t<containerLods />\n'
+	xml = xml .. '\t<boxOccluders />\n'
+	xml = xml .. '\t<occludeModels />\n'
+	xml = xml .. '\t<physicsDictionaries />\n'
+	xml = xml .. '\t<instancedData type="rage__fwInstancedMapData">\n'
+	xml = xml .. '\t\t<ImapLink />\n'
+	xml = xml .. '\t\t<PropInstanceList />\n'
+	xml = xml .. '\t\t<GrassInstanceList />\n'
+	xml = xml .. '\t</instancedData>\n'
+	xml = xml .. '\t<timeCycleModifiers />\n'
+	xml = xml .. '\t<awOyxCA_0x8471928B />\n'
+	xml = xml .. '\t<reflectionProbeData />\n'
+	xml = xml .. '\t<carGenerators />\n'
+	xml = xml .. '\t<LODLightsSOA type="CLODLight">\n'
+	xml = xml .. '\t\t<direction />\n'
+	xml = xml .. '\t\t<falloff />\n'
+	xml = xml .. '\t\t<falloffExponent />\n'
+	xml = xml .. '\t\t<timeAndStateFlags />\n'
+	xml = xml .. '\t\t<hash />\n'
+	xml = xml .. '\t\t<coneInnerAngle />\n'
+	xml = xml .. '\t\t<coneOuterAngleOrCapExt />\n'
+	xml = xml .. '\t\t<coronaIntensity />\n'
+	xml = xml .. '\t\t<XVPnEEA_0xFFD167D6 />\n'
+	xml = xml .. '\t</LODLightsSOA>\n'
+	xml = xml .. '\t<DistantLODLightsSOA type="CDistantLODLight">\n'
+	xml = xml .. '\t\t<position />\n'
+	xml = xml .. '\t\t<RGB />\n'
+	xml = xml .. '\t\t<intensity />\n'
+	xml = xml .. '\t\t<numStreetLights value="0" />\n'
+	xml = xml .. '\t\t<category value="0" />\n'
+	xml = xml .. '\t\t<powerGridId />\n'
+	xml = xml .. '\t\t<hash />\n'
+	xml = xml .. '\t</DistantLODLightsSOA>\n'
+	xml = xml .. '\t<block type="CBlockDesc">\n'
+	xml = xml .. '\t<version value="0" />\n'
+	xml = xml .. '\t<flags value="0" />\n'
+	xml = xml .. '\t<name />\n'
+	xml = xml .. '\t<exportedBy />\n'
+	xml = xml .. '\t<owner />\n'
+	xml = xml .. '\t<time />\n'
+	xml = xml .. '\t</block>\n'
 	xml = xml .. '</CMapData>'
 
 	return xml
